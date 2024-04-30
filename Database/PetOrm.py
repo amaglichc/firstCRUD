@@ -17,4 +17,4 @@ class PetOrm(Base):
     name: Mapped[str]
     age: Mapped[PositiveInt]
     owner: Mapped["UserOrm"] = relationship(back_populates="pets", lazy='selectin')
-    owner_id: Mapped[int] = mapped_column(ForeignKey("users_table.id", ondelete='CASCADE'))
+    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete='CASCADE'))

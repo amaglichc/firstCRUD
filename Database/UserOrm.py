@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 class UserOrm(Base):
-    __tablename__ = "users_table"
+    __tablename__ = "users"
     id: Mapped[intpk]
     name: Mapped[str]
     age: Mapped[int]
