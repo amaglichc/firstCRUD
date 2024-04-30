@@ -1,6 +1,6 @@
 from typing import List, TYPE_CHECKING
 
-from sqlalchemy.orm import Mapped, relationship, selectinload
+from sqlalchemy.orm import Mapped, relationship
 
 from Database.core import Base, intpk
 
@@ -15,4 +15,4 @@ class UserOrm(Base):
     age: Mapped[int]
     email: Mapped[str]
     pets: Mapped[List["PetOrm"]] = relationship(back_populates="owner", lazy='selectin',
-                                                cascade='all,delete-orphan')
+                                                cascade='all,delete-orphan,delete')

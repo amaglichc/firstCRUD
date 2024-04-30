@@ -2,11 +2,10 @@ from typing import TYPE_CHECKING
 
 from pydantic import PositiveInt
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import mapped_column, Mapped, relationship, selectinload
-
-from Database.core import intpk
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 
 from Database.core import Base
+from Database.core import intpk
 
 if TYPE_CHECKING:
     from Database.UserOrm import UserOrm

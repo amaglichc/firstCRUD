@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter
-from Database.core import create_tables
+
 from Database import UserRepo, PetRepo
 from Dtos.PetDTO import PetAddDTO, PetDTO
 from Dtos.UserDTO import UserAddDTO, UserDTO
@@ -25,6 +25,11 @@ def get_user_by_id(user_id: int) -> UserDTO:
 @router.post("", response_model=UserDTO)
 def create_user(user: UserAddDTO) -> UserDTO:
     return UserRepo.add_user(user)
+
+
+@router.get("/{user_id}/pet", response_model=list[PetDTO])
+def get_user_by_id(user_id: int) -> list[PetDTO]:
+    return PetRepo.get_pets_by_user_id(user_id)
 
 
 @router.post("/{user_id}/pet", response_model=PetDTO)

@@ -2,9 +2,9 @@ from typing import List
 
 from fastapi import APIRouter
 
-from Database import UserRepo, PetRepo
+from Database import PetRepo
 from Dtos.PetDTO import PetDTO, PetAddDTO
-from Dtos.UserDTO import UserAddDTO, UserDTO
+from Dtos.UserDTO import UserDTO
 
 router = APIRouter(
     tags=["pet"],
@@ -22,7 +22,7 @@ def get_pet_by_id(id: int) -> PetDTO:
     return PetRepo.get_pet_by_id(id)
 
 
-@router.put("/{id}", response_model=UserDTO)
+@router.put("/{id}", response_model=PetDTO)
 def update_pet(id: int, pet: PetAddDTO) -> PetDTO:
     return PetRepo.update_pet(id, pet)
 

@@ -4,8 +4,8 @@ from sqlalchemy import select, delete
 
 from Database.PetOrm import PetOrm
 from Database.UserOrm import UserOrm
-from Dtos.PetDTO import PetDTO, PetAddDTO
 from Database.core import session_maker
+from Dtos.PetDTO import PetDTO, PetAddDTO
 
 
 def get_all_pets() -> List[PetDTO]:
@@ -33,11 +33,11 @@ def add_pet(pet_data: PetAddDTO, user_id: int) -> PetDTO:
 
 def update_pet(pet_id: int, pet: PetAddDTO) -> PetDTO:
     with session_maker() as session:
-        old_pet: PetOrm = session.get(PetOrm, pet_id)
-        old_pet.name = pet.name
-        old_pet.age = pet.age
+        pet_from_db = session.get(PetOrm, pet_id)
+        pet_from_db.name = pet.name
+        pet_from_db.age = pet.age
         session.commit()
-        return PetDTO.model_validate(old_pet, from_attributes=True)
+        return PetDTO.model_validate(pet_from_db, from_attributes=True)
 
 
 def delete_pet(id: int) -> None:
@@ -46,3 +46,12 @@ def delete_pet(id: int) -> None:
         session.execute(query)
         session.commit()
     return None
+
+
+def get_pets_by_user_id(owner_id: int) -> List[PetDTO]:
+    with session_maker() as session:
+        query = select(PetOrm).where(PetOrm.owner_id == owner_id)
+        result = session.execute(query)
+        res = result.scalars().all()
+
+    return [PetDTO.model_validate(row, from_attributes=True) for row in res]

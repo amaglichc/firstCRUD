@@ -1,7 +1,8 @@
 from typing import List
+
 from pydantic import BaseModel, EmailStr
 
-from Dtos.PetDTO import  PetDTO
+from Dtos.PetDTO import PetDTO
 
 
 class UserAddDTO(BaseModel):

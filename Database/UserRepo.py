@@ -1,9 +1,10 @@
 from typing import List
 
 from sqlalchemy import select, delete
-from Dtos.UserDTO import UserDTO, UserAddDTO
+
 from Database.UserOrm import UserOrm
 from Database.core import session_maker
+from Dtos.UserDTO import UserDTO, UserAddDTO
 
 
 def get_all_users() -> List[UserDTO]:
@@ -40,7 +41,9 @@ def update_user(user_id: int, user: UserAddDTO) -> UserDTO:
 def delete_user(id: int) -> None:
     with session_maker() as session:
         query = delete(UserOrm).where(UserOrm.id == id)
+
         session.execute(query)
-        session.flush()
         session.commit()
     return None
+
+

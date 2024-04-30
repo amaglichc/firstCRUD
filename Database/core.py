@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker, mapped_column, declarative_base
+from sqlalchemy.orm import sessionmaker, mapped_column, declarative_base
 
 engine = create_engine(
     url="postgresql+psycopg://postgres:postgres@localhost:5432/python_test",
@@ -10,7 +10,6 @@ engine = create_engine(
 session_maker = sessionmaker(engine)
 
 intpk = Annotated[int, mapped_column(primary_key=True)]
-
 
 Base = declarative_base()
 
