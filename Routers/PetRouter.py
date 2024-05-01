@@ -1,10 +1,9 @@
-from typing import List
+from typing import List, Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Path
 
 from Database import PetRepo
 from Dtos.PetDTO import PetDTO, PetAddDTO
-from Dtos.UserDTO import UserDTO
 
 router = APIRouter(
     tags=["pet"],
@@ -18,17 +17,17 @@ def get_pets() -> list[PetDTO]:
 
 
 @router.get("/{id}", response_model=PetDTO)
-def get_pet_by_id(id: int) -> PetDTO:
+def get_pet_by_id(id: Annotated[int, Path(ge=1)]) -> PetDTO:
     return PetRepo.get_pet_by_id(id)
 
 
 @router.put("/{id}", response_model=PetDTO)
-def update_pet(id: int, pet: PetAddDTO) -> PetDTO:
+def update_pet(id: Annotated[int, Path(ge=1)], pet: PetAddDTO) -> PetDTO:
     return PetRepo.update_pet(id, pet)
 
 
 @router.delete("/{id}", response_model=dict[str, str])
-def delete_pet(id: int) -> dict[str, str]:
+def delete_pet(id: Annotated[int, Path(ge=1)]) -> dict[str, str]:
     PetRepo.delete_pet(id)
     return {
         "Status code: ": "204",

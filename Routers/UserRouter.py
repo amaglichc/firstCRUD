@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Path
 
 from Database import UserRepo, PetRepo
 from Dtos.PetDTO import PetAddDTO, PetDTO
@@ -18,7 +18,7 @@ def get_users() -> list[UserDTO]:
 
 
 @router.get("/{user_id}", response_model=UserDTO)
-def get_user_by_id(user_id: int) -> UserDTO:
+def get_user_by_id(user_id: Annotated[int, Path(ge=1)]) -> UserDTO:
     return UserRepo.get_user_by_id(user_id)
 
 
@@ -28,22 +28,22 @@ def create_user(user: UserAddDTO) -> UserDTO:
 
 
 @router.get("/{user_id}/pet", response_model=list[PetDTO])
-def get_user_by_id(user_id: int) -> list[PetDTO]:
+def get_user_by_id(user_id: Annotated[int, Path(ge=1)]) -> list[PetDTO]:
     return PetRepo.get_pets_by_user_id(user_id)
 
 
 @router.post("/{user_id}/pet", response_model=PetDTO)
-def create_pet(pet: PetAddDTO, user_id: int) -> PetDTO:
+def create_pet(pet: PetAddDTO, user_id: Annotated[int, Path(ge=1)]) -> PetDTO:
     return PetRepo.add_pet(pet, user_id)
 
 
 @router.put("/{id}", response_model=UserDTO)
-def update_user(id: int, user: UserAddDTO) -> UserDTO:
+def update_user(id: Annotated[int, Path(ge=1)], user: UserAddDTO) -> UserDTO:
     return UserRepo.update_user(id, user)
 
 
 @router.delete("/{id}", response_model=dict[str, str])
-def delete_user(id: int) -> dict[str, str]:
+def delete_user(id: Annotated[int, Path(ge=1)]) -> dict[str, str]:
     UserRepo.delete_user(id)
     return {
         "Status code: ": "204",
